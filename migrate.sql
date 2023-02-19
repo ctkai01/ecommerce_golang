@@ -25,7 +25,10 @@ CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   email VARCHAR(50) NOT NULL UNIQUE,
   phone VARCHAR(30) NOT NULL,
-  password VARCHAR(50) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  is_admin BOOLEAN DEFAULT false,
+  token VARCHAR(255),
+  full_name VARCHAR(50) NOT NULL,
   created_at TIMESTAMP DEFAULT now(),
   updated_at TIMESTAMP DEFAULT now()
 );

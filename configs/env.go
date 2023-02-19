@@ -8,6 +8,7 @@ import (
 
 type envConfigs struct {
 	DB string `mapStructure:"DB"`
+	Secret string `mapStructure:"SECRET"`
 }
 
 var EnvConfigs * envConfigs
