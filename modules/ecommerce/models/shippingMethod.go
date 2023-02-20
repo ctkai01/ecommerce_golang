@@ -72,30 +72,33 @@ import (
 
 // 	*pt = ptValue
 
-// 	return nil
-// }
+//		return nil
+//	}
 var (
-	ErrorNotFoundPaymentType = errors.New("Not found payment type")
+	ErrorNotFoundShippingMethod = errors.New("Not found shipping method")
 )
 
-type PaymentType struct {
+type ShippingMethod struct {
 	ID        int       `json:"id"`
-	Value     string    `json:"value"`
-	User      []*User   `json:"-" gorm:"many2many:user_payment_methods;"`
+	Name      string    `json:"name"`
+	Price     int       `json:"price"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-func (PaymentType) TableName() string { return "payment_types" }
+func (ShippingMethod) TableName() string { return "shipping_methods" }
 
-type CreatePaymentType struct {
-	ID    int    `json:"id"`
-	Value string `json:"value" validate:"required,gte=1,lte=30"`
-}
-func (CreatePaymentType) TableName() string { return PaymentType{}.TableName() }
-
-type UpdatePaymentType struct {
-	Value string `json:"value" validate:"required,gte=1,lte=30"`
+type CreateShippingMethod struct {
+	ID    int    `json:"-"`
+	Name  string `json:"name" validate:"required,gte=1,lte=50"`
+	Price int    `json:"price" validate:"required,numeric"`
 }
 
-func (UpdatePaymentType) TableName() string { return PaymentType{}.TableName() }
+func (CreateShippingMethod) TableName() string { return ShippingMethod{}.TableName() }
+
+type UpdateShippingMethod struct {
+	Name  string `json:"name" validate:"required,gte=1,lte=50"`
+	Price int    `json:"price" validate:"required,numeric"`
+}
+
+func (UpdateShippingMethod) TableName() string { return ShippingMethod{}.TableName() }

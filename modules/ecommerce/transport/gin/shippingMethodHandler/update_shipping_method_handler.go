@@ -1,10 +1,10 @@
-package countries_handle
+package shipping_method_handle
 
 import (
 	// "ecommerce_shop/modules/ecommerce/models"
 
 	"ecommerce_shop/common"
-	biz_countries "ecommerce_shop/modules/ecommerce/biz/countries"
+	"ecommerce_shop/modules/ecommerce/biz/shippingMethod"
 	"ecommerce_shop/modules/ecommerce/models"
 	"ecommerce_shop/modules/ecommerce/storage"
 	"strconv"
@@ -16,9 +16,9 @@ import (
 	"gorm.io/gorm"
 )
 
-func UpdateCountry(db *gorm.DB) func(*gin.Context) {
+func UpdateShippingMethod(db *gorm.DB) func(*gin.Context) {
 	return func(c *gin.Context) {
-		var data models.UpdateCountry
+		var data models.UpdateShippingMethod
 
 		id, err := strconv.Atoi(c.Param("id"))
 
@@ -44,11 +44,11 @@ func UpdateCountry(db *gorm.DB) func(*gin.Context) {
 		}
 
 		store := storage.NewSQLStore(db)
+		
+		business := biz_shipping_method.NewUpdateShippingMethodBiz(store)
 
-		business := biz_countries.NewUpdateCountryBiz(store)
-
-		if err := business.UpdateCountryByID(c, id, &data); err != nil {
-			if err == models.ErrorNotFoundCountry {
+		if err := business.UpdateShippingMethodByID(c, id, &data); err != nil {
+			if err == models.ErrorNotFoundShippingMethod {
 				c.JSON(http.StatusNotFound, gin.H{
 					"error": err.Error(),
 				})
@@ -65,6 +65,6 @@ func UpdateCountry(db *gorm.DB) func(*gin.Context) {
 			return
 		}
 
-		c.JSON(http.StatusCreated, common.SimpleSuccessResponse(true))
+		c.JSON(http.StatusOK, common.SimpleSuccessResponse(true))
 	}
 }

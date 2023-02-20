@@ -98,10 +98,10 @@ FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
 -- Payment type table
-CREATE TYPE enum_value_payment AS ENUM('COD', 'CREDIT_CARD');
+-- CREATE TYPE enum_value_payment AS ENUM('COD', 'CREDIT_CARD');
 CREATE TABLE payment_types (
   id SERIAL PRIMARY KEY,
-  value enum_value_payment NOT NULL, 
+  value VARCHAR(30) NOT NULL, 
 
   created_at TIMESTAMP DEFAULT now(),
   updated_at TIMESTAMP DEFAULT now()
@@ -149,14 +149,14 @@ BEFORE UPDATE ON user_payment_methods
 FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
 
-
+-- ALTER TABLE product_categories ADD CONSTRAINT fk_product_category FOREIGN KEY(category_id) REFERENCES product_categories(id) ON DELETE SET NULL;
 -- Product Category TABLE
 CREATE TABLE product_categories (
   id SERIAL PRIMARY KEY,
-  category_id INT NOT NULL,
+  category_id INT,
   category_name VARCHAR(100) NOT NULL,
-  CONSTRAINT fk_product_category FOREIGN KEY(category_id) REFERENCES product_categories(id),
-
+  CONSTRAINT fk_product_category FOREIGN KEY(category_id) REFERENCES product_categories(id) ON DELETE SET NULL,
+  
   created_at TIMESTAMP DEFAULT now(),
   updated_at TIMESTAMP DEFAULT now()
 );

@@ -39,6 +39,6 @@ func ListCountry(db *gorm.DB) func(*gin.Context) {
 			return
 		}
 
-		c.JSON(http.StatusCreated, common.NewSuccessResponse(result, paging, nil))
+		c.JSON(http.StatusOK, common.NewSuccessResponse(result, paging, nil))
 	}
 }

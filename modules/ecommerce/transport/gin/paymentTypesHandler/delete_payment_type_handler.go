@@ -1,10 +1,10 @@
-package countries_handle
+package payment_type_handle
 
 import (
 	// "ecommerce_shop/modules/ecommerce/models"
 
 	"ecommerce_shop/common"
-	"ecommerce_shop/modules/ecommerce/biz/countries"
+	"ecommerce_shop/modules/ecommerce/biz/paymentType"
 	"ecommerce_shop/modules/ecommerce/models"
 	"ecommerce_shop/modules/ecommerce/storage"
 	"strconv"
@@ -16,7 +16,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func DeleteCountry(db *gorm.DB) func(*gin.Context) {
+func DeletePaymentType(db *gorm.DB) func(*gin.Context) {
 	return func(c *gin.Context) {
 
 		id, err := strconv.Atoi(c.Param("id"))
@@ -30,9 +30,9 @@ func DeleteCountry(db *gorm.DB) func(*gin.Context) {
 
 		store := storage.NewSQLStore(db)
 
-		business := biz_countries.NewDeleteCountryBiz(store)
+		business := biz_payment_type.NewDeletePaymentTypeBiz(store)
 
-		if err := business.DeleteCountryByID(c, id); err != nil {
+		if err := business.DeletePaymentTypeByID(c, id); err != nil {
 			if err == models.ErrorNotFoundCountry {
 				c.JSON(http.StatusNotFound, gin.H{
 					"error": err.Error(),
@@ -45,6 +45,6 @@ func DeleteCountry(db *gorm.DB) func(*gin.Context) {
 			return
 		}
 
-		c.JSON(http.StatusCreated, common.SimpleSuccessResponse(true))
+		c.JSON(http.StatusOK, common.SimpleSuccessResponse(true))
 	}
 }
